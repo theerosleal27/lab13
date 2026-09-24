@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "blue" {
-  name     = "cmtr-7zh97qyv-blue-tg"
+  name     = var.blue_target_group_name
   port     = 80
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.main.id
@@ -16,13 +16,13 @@ resource "aws_lb_target_group" "blue" {
   }
 
   tags = {
-    Name        = "cmtr-7zh97qyv-blue-tg"
+    Name        = var.blue_target_group_name
     Environment = "Blue"
   }
 }
 
 resource "aws_lb_target_group" "green" {
-  name     = "cmtr-7zh97qyv-green-tg"
+  name     = var.green_target_group_name
   port     = 80
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.main.id
@@ -39,13 +39,13 @@ resource "aws_lb_target_group" "green" {
   }
 
   tags = {
-    Name        = "cmtr-7zh97qyv-green-tg"
+    Name        = var.green_target_group_name
     Environment = "Green"
   }
 }
 
 resource "aws_launch_template" "blue" {
-  name = "cmtr-7zh97qyv-blue-template"
+  name = var.blue_launch_template_name
 
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t2.micro"
@@ -86,13 +86,13 @@ resource "aws_launch_template" "blue" {
   }
 
   tags = {
-    Name        = "cmtr-7zh97qyv-blue-template"
+    Name        = var.blue_launch_template_name
     Environment = "Blue"
   }
 }
 
 resource "aws_launch_template" "green" {
-  name = "cmtr-7zh97qyv-green-template"
+  name = var.green_launch_template_name
 
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t2.micro"
@@ -133,13 +133,13 @@ resource "aws_launch_template" "green" {
   }
 
   tags = {
-    Name        = "cmtr-7zh97qyv-green-template"
+    Name        = var.green_launch_template_name
     Environment = "Green"
   }
 }
 
 resource "aws_autoscaling_group" "blue" {
-  name = "cmtr-7zh97qyv-blue-asg"
+  name = var.blue_asg_name
 
   min_size         = 1
   max_size         = 2
@@ -176,7 +176,7 @@ resource "aws_autoscaling_group" "blue" {
 }
 
 resource "aws_autoscaling_group" "green" {
-  name = "cmtr-7zh97qyv-green-asg"
+  name = var.green_asg_name
 
   min_size         = 1
   max_size         = 2
@@ -213,7 +213,7 @@ resource "aws_autoscaling_group" "green" {
 }
 
 resource "aws_lb" "main" {
-  name               = "cmtr-7zh97qyv-lb"
+  name               = var.load_balancer_name
   internal           = false
   load_balancer_type = "application"
 
@@ -227,7 +227,7 @@ resource "aws_lb" "main" {
   ]
 
   tags = {
-    Name = "cmtr-7zh97qyv-lb"
+    Name = var.load_balancer_name
   }
 }
 
